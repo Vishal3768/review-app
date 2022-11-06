@@ -1,0 +1,6 @@
+rootProject.name = 'app-review'
+include 'web'
+include 'app'
+include 'model'
+include 'service'
+

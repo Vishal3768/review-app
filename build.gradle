@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+}
+
+group 'com.vishal'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+allprojects{
+    task mainTask{
+        doFirst{
+            println("Hello first task from all projects");
+        }
+    }
+}
+
+subprojects{
+    task subTask{
+        doFirst{
+            println("Hello second task from subprojects");
+        }
+    }
+}
+
+task third{
+    doFirst{
+        println("Hello World");
+    }
+}
+
+task fourth{
+    dependsOn tasks.third
+    doLast{
+        println("Hello from fourth task");
+    }
+}
