@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -29,10 +28,6 @@ public class Controller {
     @RequestMapping(value="/update-employee/{id}",method=RequestMethod.PUT)
     public Employee employee(@PathVariable int id,@RequestBody Employee employee){
         Employee emp=service.updateEmployee(id,employee);
-
-        System.out.println("-----------------------");
-        System.out.println(emp.getFirstName());
-        System.out.println(emp.getAddress());
 
         if(emp==null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Wrong ID");

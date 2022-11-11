@@ -1,7 +1,6 @@
 package com.vishal;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "employee")
@@ -9,6 +8,7 @@ public class Employee {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     private int employeeId;
+
     private String firstName;
     private String middleName;
     private String lastName;
