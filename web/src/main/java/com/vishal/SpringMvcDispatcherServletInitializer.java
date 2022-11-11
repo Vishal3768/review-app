@@ -2,6 +2,7 @@ package com.vishal;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+
 public class SpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -17,4 +18,7 @@ public class SpringMvcDispatcherServletInitializer extends AbstractAnnotationCon
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+
+
+
 }

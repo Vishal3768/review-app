@@ -5,13 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "review-app")
+@RequestMapping(value = "/review-app")
 public class Controller {
     @Autowired
-    EmployeeService service;
+    EmployeeServiceImpl service;
 
     @GetMapping("/hello")
     public String hello(){
@@ -28,8 +29,13 @@ public class Controller {
     @RequestMapping(value="/update-employee/{id}",method=RequestMethod.PUT)
     public Employee employee(@PathVariable int id,@RequestBody Employee employee){
         Employee emp=service.updateEmployee(id,employee);
+
+        System.out.println("-----------------------");
+        System.out.println(emp.getFirstName());
+        System.out.println(emp.getAddress());
+
         if(emp==null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Wrong ID");
         }
         return emp;
     }
@@ -38,7 +44,7 @@ public class Controller {
     public Employee getEmployee(@PathVariable int id) {
         Employee emp=service.getEmployee(id);
         if(emp==null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Wrong ID");
         }
         return emp;
     }
@@ -47,7 +53,7 @@ public class Controller {
     public List<Employee> getAllEmployees(){
         List<Employee> emp=service.getAllEmployees();
         if(emp.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No User Found");
         }
         return emp;
     }
@@ -57,4 +63,5 @@ public class Controller {
     public void deleteEmployee(@PathVariable int id){
         service.deleteEmployee(id);
     }
+
 }

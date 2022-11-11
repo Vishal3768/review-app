@@ -1,50 +1,105 @@
 package com.vishal;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import java.util.*;
 
 @org.springframework.stereotype.Service
-public class EmployeeServiceImpl implements EmployeeService{
-
-    static Map<Integer,Employee> employeeList=new HashMap<>();
-
-    static {
-        employeeList.put(1,new Employee(1,"akjs","akas","iahs","iahs","jasb",122212,"ksnmks"));
-    }
+public class EmployeeServiceImpl implements EmployeeService {
     public void add(Employee employee){
-        employeeList.put(employee.getId(),employee);
+        Transaction transaction=null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction=session.beginTransaction();
+            session.save(employee);
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
     }
 
     public Employee getEmployee(int id) {
-        if(!employeeList.containsKey(id)){
-            return null;
+        Transaction transaction=null;
+        Employee emp=null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction=session.beginTransaction();
+            emp=(Employee) session.get(Employee.class,id);
+            transaction.commit();
         }
-        return employeeList.get(id);
+        catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        if(emp==null)
+            return null;
+        return emp;
     }
 
+
+
     public List<Employee> getAllEmployees() {
-        if(employeeList.isEmpty()){
+        Transaction transaction=null;
+        List<Employee> employees=new ArrayList<>();
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction=session.beginTransaction();
+            employees = session.createNativeQuery("select * from employee", Employee.class).getResultList();
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        if(employees.isEmpty() || employees==null){
             return null;
         }
-        List<Employee> list=new ArrayList<>();
-        for(int i:employeeList.keySet()){
-            list.add(employeeList.get(i));
-        }
-        return list;
+        return employees;
     }
 
     public Employee updateEmployee(int id,Employee employee) {
-        if(!employeeList.containsKey(id))
-            return null;
-        employeeList.put(id,employee);
-        return employee;
+        Transaction transaction=null;
+        Employee emp=employee;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction=session.beginTransaction();
+            if (session.get(Employee.class, id) != null) {
+                session.update(employee);
+            }
+            else{
+                emp=null;
+            }
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return emp;
     }
 
     public void deleteEmployee(int id) {
-        employeeList.remove(id);
+        Transaction transaction=null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction=session.beginTransaction();
+            Employee employee = session.get(Employee.class, id);
+            if (employee != null) {
+                session.delete(employee);
+            }
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
     }
 }

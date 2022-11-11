@@ -1,24 +1,28 @@
 package com.vishal;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "employee")
 public class Employee {
-    int id;
-    String firstName;
-    String middleName;
-    String lastNamw;
-    String password;
-    String email;
-    int phoneNumber;
-    String address;
+    @Id
+    @GeneratedValue (strategy = GenerationType.AUTO)
+    private int employeeId;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String password;
+    private String email;
+    private int phoneNumber;
+    private String address;
 
-    public int getId() {
-        return id;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public Employee() {
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getFirstName() {
@@ -37,12 +41,12 @@ public class Employee {
         this.middleName = middleName;
     }
 
-    public String getLastNamw() {
-        return lastNamw;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastNamw(String lastNamw) {
-        this.lastNamw = lastNamw;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -76,16 +80,4 @@ public class Employee {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public Employee(int id, String firstName, String middleName, String lastNamw, String password, String email, int phoneNumber, String address) {
-        this.id = id;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastNamw = lastNamw;
-        this.password = password;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-    }
-
 }
