@@ -57,7 +57,7 @@ public class IntegrationTest {
         emp.setEmail("rohan.chawla@xyz.com");
         emp.setAddress("Kolkata");
         mockMvc.perform(
-                put("/review-app/update-Employee/"+id)
+                put("/review-app/update-employee/"+id)
                         .contentType(APPLICATION_JSON)
                         .content(convertObjectToJsonBytes(emp))
         ).andExpect(status().isOk());
@@ -76,7 +76,7 @@ public class IntegrationTest {
     public void deleteEmployeeTest() throws Exception {
         Optional<Employee> employee = employeeRepository.findByFirstName("Rohan");
         int id = employee.get().getEmployeeId();
-        mockMvc.perform(delete("/revoew-app/delete-employee/"+id)).andExpect(status().isNoContent());
+        mockMvc.perform(delete("/review-app/delete-employee/"+id)).andExpect(status().isNoContent());
     }
     public Employee createEmployee(){
         Employee employee=new Employee();
